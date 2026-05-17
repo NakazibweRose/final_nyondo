@@ -1,16 +1,32 @@
 from django.db import models
-from stockapp.models import Stock
+# from stockapp.models import Stock
+
 
 # Create your models here.
-class Sale(models.Model):
-    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
-    customer_name = models.CharField(max_length=100)
-    quantity_sold = models.IntegerField(default=0)
-    unit_price = models.IntegerField(default=0)
-    total_amount = models.IntegerField(default=0)
-    date = models.DateField(auto_now_add=True)
-
-    def
+class Category(models.Model):
+    category_name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
 
     def __str__(self):
-        return f"{self.stock.product} - {self.quantity_sold} units sold at {self.sale_price} each"
+        return self.category_name
+
+
+class Product(models.Model):
+    category_name = models.ForeignKey(Category, on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=100)
+    unit_price = models.DecimalField(max_digits=100, decimal_places=2, default=0)
+    selling_price = models.DecimalField(max_digits=100, decimal_places=2, default=0)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.product_name
+
+
+class Sales(models.Model):
+    product_name = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+    total_price = models.DecimalField(max_digits=100, decimal_places=2)
+    sale_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.product.product_name} - {self.quantity} units"

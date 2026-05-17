@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Sum
 from .models import Stock
+from salesapp.models import Product
 
 # Stock list
 def stock_list(request):
@@ -9,26 +10,31 @@ def stock_list(request):
 
 # Create receipt
 def create_receipt(request):
+    products = Product.objects.all()
     if request.method == 'POST':
+        product = get_object_or_404(Product, id=request.POST.get('product'))
+        unit_cost = float(request.POST.get('unit_cost') or 0)
+        amount_paid = float(request.POST.get('amount_paid') or 0)
         receipt = Stock.objects.create(
-            product=request.POST.get('product'),
+            product=product,
             supplier=request.POST.get('supplier'),
             quantity=int(request.POST.get('quantity')),
-            unit_cost=float(request.POST.get('unit_cost')),
-            amount_paid=float(request.POST.get('amount_paid')),
-            price =float(request.POST.get('price') or 0),
+            unit_cost=unit_cost,
+            amount_paid=amount_paid,
+            selling_price =float(request.POST.get('price') or 0),
             date=request.POST.get('date'),
-            is_paid=bool(request.POST.get('is_paid')),
+            is_paid= request.POST.get('is_paid') == 'on'
         )
         return redirect('goods_received_note', receipt_id=receipt.id)
 
-    products = Stock.objects.all()
+    # products = Product.objects.all()
     return render(request, 'create_receipt.html', context={'products': products})
 
 # Goods received note
 def goods_received_note(request, receipt_id):
     receipt = get_object_or_404(Stock, id=receipt_id)
-    return render(request, 'goods_received_note.html', context={'receipt': receipt})
+    total_amount_due = receipt.quantity * receipt.unit_cost
+    return render(request, 'goods_received_note.html', context={'receipt': receipt, 'total_amount_due': total_amount_due})
 
 # Edit receipt
 def stock_edit(request, pk):
@@ -40,7 +46,7 @@ def stock_edit(request, pk):
         stock.quantity = int(request.POST.get("quantity") or 0)
         stock.unit_cost = float(request.POST.get("unit_cost") or 0)
         stock.amount_paid = float(request.POST.get("amount_paid") or 0)
-        stock.price = float(request.POST.get("price") or 0)
+        stock.selling_price = float(request.POST.get("price") or 0)
         stock.is_paid = bool(request.POST.get("is_paid"))
 
         stock.save()

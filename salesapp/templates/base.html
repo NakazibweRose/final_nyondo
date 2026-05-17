@@ -85,11 +85,10 @@
     <div class="collapse navbar-collapse" id="mainNavbar">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-seam"></i> Stock</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-cart"></i> Sales</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-truck"></i> Transport</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-diagram-3"></i> Schemes</a></li>
-        <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-gear"></i> Settings</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'stock_list' %}"><i class="bi bi-box-seam"></i> Stock</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}"><i class="bi bi-cart"></i> Sales</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'category_list' %}"><i class="bi bi-truck"></i> categories</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}"><i class="bi bi-gear"></i> Products</a></li>
         <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-person"></i> Profile</a></li>
       </ul>
     </div>

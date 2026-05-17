@@ -13,27 +13,17 @@
             <div class="mb-3">
                 <label class="form-label">Product</label>
 
-                {% comment %} <select name="product" class="form-select" required>
+                <select name="product" class="form-select" required>
                     <option value="">Select product</option>
 
                     {% for product in products %}
                     <option value="{{ product.id }}">
-                        {{ product.product }} | Current Price: {{ product.unit_cost }}
+                        {{ product.product_name }} | Current Price: {{ product.unit_cost }}
                     </option>
                     {% endfor %}
-                </select> {% endcomment %}
+                </select> 
 
-                <select name = "product" class ="form-select" required>
-                    <option value ="">selectproduct</option>
-                    <option value = "cement">cement</option>
-                    <option value ="iron_bars">iron bars</option>
-                    <option value = "nails">nails</option>
-                    <option value = "wood">wood</option>
-                    <option value = "roofings">roofings</option>
-                    <option value = "wheelbarrows">wheelbarrows</option>
-                    <option value = "wire mesh">wire mesh</option>
-                    <option value = "barbed wire">barbed wire</option>
-                </select>
+                
             </div>
 
             <div class="mb-3">
