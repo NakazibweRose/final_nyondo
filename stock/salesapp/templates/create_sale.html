@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card shadow-sm">
+    <div class="card-header bg-success text-white">
+        <h3 class="mb-0">Register Sale</h3>
+    </div>
+
+    <div class="card-body">
+        {% if error %}
+            <div class="alert alert-danger">
+            {{ error }}
+            </div>
+            {% endif %}
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Product</label>
+
+                <select name="product" id="productSelect" class="form-select" required onchange="showUnitPrice(this)">
+                    <option value="">Select product</option>
+
+                    {% for product in products %}
+                    <option value="{{ product.id }}" data-price="{{ product.unit_price }}">
+                        {{ product.product_name }} |
+                        {{ product.category_name.category_name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Unit Price</label>
+                <input type="text" id="unitPrice" class="form-control" readonly placeholder="Select a product">
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Quantity</label>
+                <input type="number" name="quantity" class="form-control" min="1" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Distance (km)</label>
+                <input type="number" name="distance" class="form-control" min="0" step="0.01">
+            </div>
+
+            <button type="submit" class="btn btn-success">Save Sale</button>
+            <a href="{% url 'home' %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function showUnitPrice(select) {
+        const price = select.options[select.selectedIndex].dataset.price;
+        document.getElementById('unitPrice').value = price ? price : '';
+    }
+</script>
+{% endblock %}
