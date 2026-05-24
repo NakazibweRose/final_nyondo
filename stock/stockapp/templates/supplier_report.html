@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Supplier Report</h2>
+    <a href="{% url 'stock_list' %}" class="btn btn-secondary">Back</a>
+</div>
+
+<table class="table table-bordered table-striped shadow-sm">
+    <thead class="table-dark">
+        <tr>
+            <th>Supplier</th>
+            <th>Total Quantity</th>
+            <th>Total Goods Value</th>
+            <th>Total Amount Paid</th>
+            <th>Amount Due</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        {% for supplier in suppliers %}
+        <tr>
+            <td>{{ supplier.supplier }}</td>
+            <td>{{ supplier.total_quantity }}</td>
+            <td>{{ supplier.total_goods_value }}</td>
+            <td>{{ supplier.total_paid }}</td>
+            <td>{{ supplier.amount_due }}</td>
+        </tr>
+
+        {% empty %}
+        <tr>
+            <td colspan="5" class="text-center">
+                No supplier data found.
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
